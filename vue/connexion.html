@@ -1,0 +1,66 @@
+<script>
+    function initEvent(){
+       // $('#btn_valider').on('click',Subform());
+        $('#btn_retour').off('click');
+    }
+
+    $(document).ready(function(){
+        $.ajax({
+            crossDomain:true,
+            url: 'http://appliweb.16mb.com/Controleur/index.php',
+            type: 'GET',
+            async : false,
+            /*username: 'raimondi1u',
+             password: 'mangak@s',*/
+            /*headers: {
+             Authorization: library.basicHeader('raimondi1u', 'mangak@s')
+             },*/
+            success: function(data) {
+                //called when successful
+                //console.log(data);
+                console.log(data);
+               // var contenu = JSON.parse(data);
+                //console.log(JSON.stringify(contenu));
+                $("#contenu").html(data);
+             //   $('#btn_valider').on('click',Subform());
+
+            },
+            error: function(e) {
+                //$("#result").html("errrrrrrrrrrrreur " +e);
+                console.log(e);
+            }
+        });
+    });
+
+
+    function subForm(){
+        $.ajax({
+            crossDomain:true,
+            url: 'http://appliweb.16mb.com/Controleur/connexion_util.php',
+            type: 'POST',
+            async : false,
+            data : 'identifiant='+ $('#identifiant').val()+'&mot_de_passe='+$('#mot_de_passe').val(),
+            success: function(data) {
+                //called when successful
+               console.log(data);
+                if(data == "error_id"){
+                    //alert(data);
+                    ErreurAuth();
+
+                }else if (data == 'connexion_ok'){
+                    
+                }
+
+            },
+            error: function(e) {
+                //$("#result").html("errrrrrrrrrrrreur " +e);
+               // console.log(e);
+            }
+    });
+    }
+
+    function ErreurAuth(){
+        $('#error').css('opacity','100');
+        $('#mot_de_passe').val('');
+    }
+</script>
