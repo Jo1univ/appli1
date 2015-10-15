@@ -1,3 +1,22 @@
+<div id='error'>
+    L ' identification a échoué
+</div>
+<div class='form-group' id='div_connexion'>
+    <form role='form' action=>
+        <label for='identifiant'>Identifiant</label>
+        <select id='identifiant' type='select' name='identifiant' required>
+            <option style='display:none;' value=''></option>
+        </select>
+
+
+
+        <label for='mot_de_passe'>Mot de passe</label> <input class='form-control' id='mot_de_passe' type='password' name='mot_de_passe' required>
+        <!-- <input class=\"btn btn-default\" type=\"submit\" value=\"Valider\"> -->
+        <input type='button' class='btn' btn-default id='btn_valider' onclick='subForm();'>Valider</input>
+        <input type='button' class='btn' btn-default id='btn_retour' onclick='retour();'>Retour</button>
+    </form>
+</div>
+
 <script>
     function initEvent(){
        // $('#btn_valider').on('click',Subform());
@@ -5,16 +24,11 @@
     }
 
     $(document).ready(function(){
-        $.ajax({
+       /* $.ajax({
             crossDomain:true,
             url: 'http://appliweb.16mb.com/Controleur/index.php',
             type: 'GET',
             async : false,
-            /*username: 'raimondi1u',
-             password: 'mangak@s',*/
-            /*headers: {
-             Authorization: library.basicHeader('raimondi1u', 'mangak@s')
-             },*/
             success: function(data) {
                 //called when successful
                 //console.log(data);
@@ -29,12 +43,28 @@
                 //$("#result").html("errrrrrrrrrrrreur " +e);
                 console.log(e);
             }
+        });*/
+        var select, option;
+        select = document.getElementById( 'identifiant' );
+
+        $.getJSON('http://appliweb.16mb.com/Controleur/index.php', function(data) {
+            $.each(data, function(i,item){
+                option = document.createElement( 'option' );
+                option.value = option.text = item.nom+" "+item.prenom;
+                select.add( option );
+            });
         });
+
     });
 
+   /* $(document).ready(function(){
+
+    });*/
 
     function subForm(){
-        $.ajax({
+
+
+        /*$.ajax({
             crossDomain:true,
             url: 'http://appliweb.16mb.com/Controleur/connexion_util.php',
             type: 'POST',
@@ -56,7 +86,7 @@
                 //$("#result").html("errrrrrrrrrrrreur " +e);
                // console.log(e);
             }
-    });
+    });*/
     }
 
     function ErreurAuth(){
