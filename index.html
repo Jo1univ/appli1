@@ -1,43 +1,158 @@
-
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5-dist/css/bootstrap.css" />
-    <title></title>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
 
-</head>
-<body>
-<div class="navbar-fixed-top">
-    <a href="https://lpsil.iut.univ-metz.fr/wce/actualites.html">LP SIL</a>
-    <a id="lien_connexion" href=''></a>
-</div>
-<div class="container">
-    <div class="container_principal">
-        <div class="bandeau_licence">
-            <h1>Licence Professionnelle<br/>Systèmes Informatiques et Logiciels</h1>
-            <img id="logo_iut_metz" src="img/Logo_IUT_Metz.Info_UL.small.png" alt="logo iut metz"/>
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>App Test</title>
+		
+		
+		<!-- JQUERY -->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css">
+		
+		<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+		
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
+    </head>
+
+    <body>
+	
+	
+        <div class="navbar-fixed-top">  
+			<a href="https://lpsil.iut.univ-metz.fr/wce/actualites.html">LP SIL</a>
+			<a id="lien_connexion" href="">Connexion</a>
         </div>
-        <div id="contenu">
-            ici le contenu <!-- $contenu de php-->
-        </div>
-        <div id="bouton_nav_pages">
-            ici le contenu <!--$bouton_acces_details de php-->
-        </div>
-        <hr>y</hr>
-        <footer>
-            <a class="lien_bleu" href="https://dptinfo.iut.univ-metz.fr/">
-                <small>Département Informatique, IUT de Metz</small>
-            </a>
-        </footer>
-    </div>
-</div>
-</body>
+		<div class="container">
+			<div class="container_principal">
+				<div class="bandeau_licence">
+					<h1>Licence Professionnelle<br/>Systèmes Informatiques et Logiciels</h1>
+					<img id="logo_iut_metz" src="img/Logo_IUT_Metz.Info_UL.small.png" alt="logo iut metz"/>
+				</div>
+				<div id="contenu">
+					<div id="error">
+						L'identification a échoué
+					</div>
+					<div class="form-group" id="div_connexion">
+							<p>
+								<label for="identifiant">Identifiant :</label>
+									<select name="identifiant" id="identifiant">
+								   </select>
+								<br />
+							   <label for="pass">Mot de passe :</label>
+							   <input type="password" name="pass" id="pass" />
+							</p>
+							<button class="btn btn-default" onClick="Validation();">Valider</button>
+							<button class="btn btn-default" onClick="Zero();">Retour</button>
+							<button class="btn btn-default" onClick="TEST();">LOAD</button>
+							<button class="btn btn-default" onClick="TESTD();">DELETE</button>
+					</div>
+				</div>
+				<div id="bouton_nav_pages">
+				
+				</div>
+				<hr></hr>
+				<footer>
+					<a class="lien_bleu" href="https://dptinfo.iut.univ-metz.fr/">
+						<small>Département Informatique, IUT de Metz</small>
+					</a>
+				</footer>
+			</div>
+		</div>		
+
+		<!-- Fonction qui rempli le select avec le nom des encadrants-->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				var select, option;
+				select = document.getElementById( 'identifiant' );
+				
+				$.getJSON('http://samothe.olympe.in/php/SelectEnca.php', function(data) {
+						$.each(data, function(i,item){ 
+						option = document.createElement( 'option' );
+						option.value = option.text = item.nom+" "+item.prenom;
+						select.add( option );
+					});
+				});
+			});
+		</script>	
+		
+		<!-- Fonction d'enregistrement des valeurs dans le local storage, à faire la validation pour de vrai-->
+		<script type="text/javascript">
+		function Validation() { 
+			window.localStorage.setItem("ident", document.getElementById("identifiant").value);
+			window.localStorage.setItem("mdp", document.getElementById("pass").value);
+			alert("LOADED");
+		}
+		</script>
+		
+		<!-- Fonction pour remttre les champs à zero-->
+		<script type="text/javascript">
+		function Zero() { 
+			document.getElementById("identifiant").selectedIndex = 0;
+			document.getElementById("pass").value = "";
+		}
+		</script>
+		
+		<!-- Fonction pour voir les valeurs dans le local storage-->
+		<script type="text/javascript">
+		function TEST() { 
+			var log = window.localStorage.getItem("ident");
+			var pass = window.localStorage.getItem("mdp");
+			var login = log.split(" ");
+			
+			alert(login[0] + ",prénom : "+login[1]+", mdp : " + pass);
+		}
+		</script>
+		
+		<!-- Fonction de suppression des valeurs du local storage(seulement celle que l'on a créer)-->
+		<script type="text/javascript">
+		function TESTD() { 
+			window.localStorage.removeItem("ident");
+			window.localStorage.removeItem("mdp");
+			
+			alert("CLEAR");
+		}
+		</script>
+		
+		<!-- Fonction d'insertion si il y a des valeurs dans le local storage-->
+		<!-- P'tetre pas le mieu d'ajouter dans la liste une deuxième, à voir si on peut séléctionner celle qui existe -->
+		<script type='text/javascript'>
+			$(document).ready(function(){
+			var option;
+				var log = window.localStorage.getItem("ident");
+				var pass = window.localStorage.getItem("mdp");
+				if(log!=null && pass!=null){
+					option = document.createElement( 'option' );
+					option.value = option.text = log;
+					document.getElementById( 'identifiant' ).add(option);
+					document.getElementById( 'identifiant' ).selectedIndex
+					document.getElementById( 'pass' ).value = pass;
+				}
+			});
+		</script>
+		
+    </body>
 </html>
-<script  src ='js/jquery.min.js' type="text/javascript"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery-mobile-1.4.5.min.js"></script>
-<script  type="text/javascript">
-    $('#contenu').load('vue/connexion.html');
-</script>
